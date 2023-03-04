@@ -49,8 +49,7 @@ export async function up(db) {
 /**
  * @param db {Kysely<any>}
  */
-/*export async function down(db) {
+export async function down(db) {
   await db.schema.dropTable("request").execute();
   await db.schema.dropTable("clients").execute();
 }
-*/

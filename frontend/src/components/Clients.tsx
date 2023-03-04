@@ -2,13 +2,21 @@ import React from 'react';
 import { useState } from "react";
 
 export default function Clients() {
-  const [count, setCount] = useState<string>("");
 
-  function onClick() {
-    fetch("/api/count", { method: "POST" })
-      .then((response) => response.text())
-      .then(setCount);
-  }
+  const example_data = [
+    { 
+      id: 1,
+      count: 0,
+      name: "Sam",
+      email: "mail@domain.com"
+    },
+    {
+      id: 2,
+      count: 0,
+      name: "Dough",
+      email: "mail@domain.com"
+    }
+  ];
 
   return (
     <div>
@@ -37,44 +45,41 @@ export default function Clients() {
               scope="col"
               className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
             >
-              Edit
+              Count
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
             >
-              Delete
+              Actions
             </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          <tr>
-            <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-              1
-            </td>
-            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-              Jone Doe
-            </td>
-            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-              jonne62@gmail.com
-            </td>
-            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-              <a
-                className="text-green-500 hover:text-green-700"
-                href="#"
-              >
-                Edit
-              </a>
-            </td>
-            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-              <a
-                className="text-red-500 hover:text-red-700"
-                href="#"
-              >
-                Delete
-              </a>
-            </td>
-          </tr>
+          {example_data.map( row => 
+            <tr>
+              <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                {row.id}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                {row.name}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                {row.email}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                {row.count}
+              </td>
+              <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                <a
+                  className="text-green-500 hover:text-green-700"
+                  href="#"
+                >
+                  Increment
+                </a>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

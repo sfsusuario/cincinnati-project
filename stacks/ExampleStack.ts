@@ -44,7 +44,7 @@ export function ExampleStack({ stack }: StackContext) {
 
   // Show the resource info in the output
   stack.addOutputs({
-    URL: site.url,
+    URL: site.url as any,
     ApiEndpoint: api.url,
     SecretArn: cluster.secretArn,
     ClusterIdentifier: cluster.clusterIdentifier,
