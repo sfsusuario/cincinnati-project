@@ -7,11 +7,13 @@
     "typecheck": "tsc -noEmit"
   },
   "devDependencies": {
-    "@types/node": "^18.14.4",
     "@types/aws-lambda": "^8.10.111",
+    "@types/node": "^18.14.4",
     "sst": "^2.1.6"
   },
   "dependencies": {
+    "kysely": "^0.23.4",
+    "kysely-data-api": "^0.2.0",
     "sst": "^2.1.6"
   }
 }

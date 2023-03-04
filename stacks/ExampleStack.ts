@@ -2,35 +2,57 @@ import { Api, NextjsSite, StackContext, Table } from "sst/constructs";
 import { RDS } from "sst/constructs";
 
 export function ExampleStack({ stack }: StackContext) {
-  /*new RDS(stack, "Database", {
-    engine: "postgresql11.13",
-    defaultDatabaseName: "acme",
-    migrations: "migration",
-  });*/
+  const DATABASE = "CounterDB";
 
-  const table = new Table(stack, "Counter", {
+  // Create the Aurora DB cluster
+  const cluster = new RDS(stack, "Cluster", {
+    engine: "postgresql10.14",
+    defaultDatabaseName: DATABASE,
+    migrations: "packages/migrations",
+  });
+
+  /*const table = new Table(stack, "Counter", {
     fields: {
       counter: "string",
     },
   
     primaryIndex: { partitionKey: "counter" },
-  });
-    // Add your first construct// Create a Next.js site
+  });*/
+
+  // Add your first construct// Create a Next.js site
   const site = new NextjsSite(stack, "Site", {
     path: "frontend",
     environment: {
       // Pass the table details to our app
       REGION: "us-east-1",
-      TABLE_NAME: table.tableName,
+      //TABLE_NAME: table.tableName,
     },
   });
 
-  // Allow the Next.js API to access the table
-  site.attachPermissions([table]);
+  // Create a HTTP API
+  const api = new Api(stack, "Api", {
+    defaults: {
+      function: {
+        bind: [cluster],
+      },
+    },
+    routes: {
+      "POST /": "packages/functions/src/lambda.handler",
+    },
+  });
 
-  // Show the site URL in the output
+  // Show the resource info in the output
   stack.addOutputs({
     URL: site.url,
+    ApiEndpoint: api.url,
+    SecretArn: cluster.secretArn,
+    ClusterIdentifier: cluster.clusterIdentifier,
   });
+  // Allow the Next.js API to access the table
+  //site.attachPermissions([table]);
+
+  // Show the site URL in the output
+  /*stack.addOutputs({
+  });*/
 }
 

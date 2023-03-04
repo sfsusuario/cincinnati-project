@@ -1,0 +1,43 @@
+import { RDSDataService } from "aws-sdk";
+import { Kysely } from "kysely";
+import { DataApiDialect } from "kysely-data-api";
+import { RDS } from "sst/node/rds";
+
+interface Database {
+  clients: {
+    name: string;
+    id: number;
+  };
+}
+
+export async function consultar() {
+
+    const db = new Kysely<Database>({
+      dialect: new DataApiDialect({
+        mode: "postgres",
+        driver: {
+          database: RDS.Cluster.defaultDatabaseName,
+          secretArn: RDS.Cluster.secretArn,
+          resourceArn: RDS.Cluster.clusterArn,
+          client: new RDSDataService(),
+        },
+      }),
+    });
+
+    const record = await db
+      .selectFrom("clients")
+      .select("id")
+      //.where("counter", "=", "hits")
+      .execute();
+    return record;
+}
+
+export default async function handler(req: any, res: any) {
+    let count;
+    try{
+      count = await consultar();
+    } catch(e: any) {
+      count = e.message;
+    }
+    res.status(200).send(JSON.stringify(count));
+}

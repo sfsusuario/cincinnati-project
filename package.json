@@ -23,6 +23,8 @@
   ],
   "dependencies": {
     "@sls-next/lambda-at-edge": "^3.7.0",
-    "aws-sdk": "^2.1327.0"
+    "aws-sdk": "^2.1327.0",
+    "kysely": "^0.23.4",
+    "kysely-data-api": "^0.2.0"
   }
 }
