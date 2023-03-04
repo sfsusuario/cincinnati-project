@@ -37,7 +37,8 @@ export function ExampleStack({ stack }: StackContext) {
       },
     },
     routes: {
-      "POST /": "packages/functions/src/lambda.handler",
+      "GET /clients": "packages/functions/src/clients.handler",
+      "GET /test": "packages/functions/src/test.handler",
     },
   });
 
